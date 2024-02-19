@@ -6,12 +6,8 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 let userSelectedDate;
 
+const inputData = document.querySelector('#datetime-picker');
 const btnStart = document.querySelector('button[data-start]');
-// const inputData = document.querySelector('#datetime-picker');
-// console.log(inputData);
-// inputData.classList.add('disable');
-// inputData.classList.remove('disable');
-// inputData.classList.toggle('disable');
 const timerDays = document.querySelector('.value[data-days]');
 const timerHours = document.querySelector('.value[data-hours]');
 const timerMinutes = document.querySelector('.value[data-minutes]');
@@ -24,7 +20,20 @@ const options = {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] <= Date.now()) {
-      window.alert('Please choose a date in the future');
+      iziToast.error({
+        title: 'Error',
+        titleColor: '#fff',
+        titleSize: '16px',
+
+        message: 'Please choose a date in the future',
+        messageColor: '#fff',
+        messageSize: '16px',
+
+        iconUrl: '../img/error.svg',
+
+        position: 'topRight',
+        backgroundColor: '#ef4040',
+      });
 
       btnStart.classList.add('disabled');
       btnStart.setAttribute('disabled', '');
@@ -41,16 +50,24 @@ onBtnDisabled();
 flatpickr('#datetime-picker', options);
 btnStart.addEventListener('click', onCountdownTime);
 
+function onCountdownTime() {
+  onBtnDisabled();
+  onInputDisabled();
+
+  setInterval(() => {
+    const countdownTime = userSelectedDate - Date.now();
+    onTimerInterface(convertMs(countdownTime));
+  }, 1000);
+}
+
 function onBtnDisabled() {
   btnStart.classList.add('disabled');
   btnStart.setAttribute('disabled', '');
 }
 
-function onCountdownTime() {
-  setInterval(() => {
-    const countdownTime = userSelectedDate - Date.now();
-    onTimerInterface(convertMs(countdownTime));
-  }, 1000);
+function onInputDisabled() {
+  inputData.classList.add('disabled');
+  inputData.setAttribute('disabled', '');
 }
 
 function convertMs(ms) {
