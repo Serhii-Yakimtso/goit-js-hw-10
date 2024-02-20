@@ -4,6 +4,8 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
+import errorIcon from '../img/error.svg';
+
 const inputData = document.querySelector('#datetime-picker');
 const btnStart = document.querySelector('button[data-start]');
 const timerDays = document.querySelector('.value[data-days]');
@@ -29,7 +31,7 @@ const options = {
         messageColor: '#fff',
         messageSize: '16px',
 
-        iconUrl: '../img/error.svg',
+        iconUrl: errorIcon,
 
         position: 'topRight',
         backgroundColor: '#ef4040',
