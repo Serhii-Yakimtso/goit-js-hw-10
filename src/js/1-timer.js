@@ -4,14 +4,14 @@ import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-let userSelectedDate;
-
 const inputData = document.querySelector('#datetime-picker');
 const btnStart = document.querySelector('button[data-start]');
 const timerDays = document.querySelector('.value[data-days]');
 const timerHours = document.querySelector('.value[data-hours]');
 const timerMinutes = document.querySelector('.value[data-minutes]');
 const timerSeconds = document.querySelector('.value[data-seconds]');
+
+let userSelectedDate;
 
 const options = {
   enableTime: true,
@@ -54,8 +54,13 @@ function onCountdownTime() {
   onBtnDisabled();
   onInputDisabled();
 
-  setInterval(() => {
+  const interval = setInterval(() => {
     const countdownTime = userSelectedDate - Date.now();
+
+    if (countdownTime <= 0) {
+      return clearInterval(interval);
+    }
+
     onTimerInterface(convertMs(countdownTime));
   }, 1000);
 }
