@@ -41,7 +41,7 @@ const options = {
       btnStart.setAttribute('disabled', '');
     } else {
       btnStart.classList.remove('disabled');
-      btnStart.removeAttribute('disabled', '');
+      btnStart.removeAttribute('disabled');
 
       userSelectedDate = selectedDates[0].getTime();
     }

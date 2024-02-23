@@ -45,8 +45,9 @@ let delay;
 
 inputFulfilled.addEventListener('click', addInputFulfilledChecked);
 inputRejected.addEventListener('click', addInputRejectedChecked);
-btnSubmit.addEventListener('click', onPromiseGenerator);
+btnSubmit.addEventListener('click', handlePromiseGenerator);
 
+// функції зміни статусу checked на радіо-кнопках
 function addInputFulfilledChecked() {
   inputFulfilled.setAttribute('checked', '');
   inputRejected.removeAttribute('checked');
@@ -57,12 +58,7 @@ function addInputRejectedChecked() {
   inputFulfilled.removeAttribute('checked');
 }
 
-function onPromiseGenerator(e) {
-  e.preventDefault();
-  getDelay();
-  getPromiseState();
-}
-
+// функція прийняття delay із форми
 function getDelay() {
   if (!inputDelay.value) {
     iziToast.show({
@@ -85,6 +81,7 @@ function getDelay() {
   delay = inputDelay.value;
 }
 
+// функція визначення стану із форми
 function getPromiseState() {
   if (document.querySelector('[checked]') === null) {
     iziToast.show({
@@ -105,4 +102,58 @@ function getPromiseState() {
   }
 
   state = document.querySelector('[checked]').getAttribute('value');
+}
+
+// функція виклику промісу
+const makePromise = (delay, state) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (state === 'fulfilled') {
+        resolve();
+      } else {
+        reject();
+      }
+    }, delay);
+  });
+};
+
+function handlePromiseGenerator(e) {
+  e.preventDefault();
+  getDelay();
+  getPromiseState();
+  makePromise;
+
+  makePromise(delay, state)
+    .than(
+      iziToast.show({
+        title: 'OK',
+        titleColor: '#fff',
+        titleSize: '16px',
+
+        message: ` Fulfilled promise in ${delay}ms`,
+        messageColor: '#fff',
+        messageSize: '16px',
+
+        iconUrl: errorIcon,
+
+        position: 'topRight',
+        backgroundColor: '#59a10d',
+      })
+    )
+    .catch(
+      iziToast.show({
+        title: 'Error',
+        titleColor: '#fff',
+        titleSize: '16px',
+
+        message: ` Rejected promise in ${delay}ms`,
+        messageColor: '#fff',
+        messageSize: '16px',
+
+        iconUrl: errorIcon,
+
+        position: 'topRight',
+        backgroundColor: '#ef4040',
+      })
+    );
 }

@@ -67,6 +67,7 @@ fieldset > legend {
 }
 
 button {
+  display: block;
   border-radius: 8px;
   padding: 8px 16px;
   width: 360px;
