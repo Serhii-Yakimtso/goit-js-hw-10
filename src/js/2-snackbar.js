@@ -124,7 +124,7 @@ function handlePromiseGenerator(e) {
   makePromise;
 
   makePromise(delay, state)
-    .than(
+    .than(() => {
       iziToast.show({
         title: 'OK',
         titleColor: '#fff',
@@ -138,9 +138,9 @@ function handlePromiseGenerator(e) {
 
         position: 'topRight',
         backgroundColor: '#59a10d',
-      })
-    )
-    .catch(
+      });
+    })
+    .catch(() => {
       iziToast.show({
         title: 'Error',
         titleColor: '#fff',
@@ -154,6 +154,6 @@ function handlePromiseGenerator(e) {
 
         position: 'topRight',
         backgroundColor: '#ef4040',
-      })
-    );
+      });
+    });
 }
