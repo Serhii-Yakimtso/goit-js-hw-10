@@ -5,43 +5,11 @@ import errorIcon from '../img/error.svg';
 import cautionIcon from '../img/caution.svg';
 import okIcon from '../img/ok.svg';
 
-// iziToast.show({
-//       title: 'Error',
-//       titleColor: '#fff',
-//       titleSize: '16px',
-
-//       message: ` Rejected promise in ${delay}ms`,
-//       messageColor: '#fff',
-//       messageSize: '16px',
-
-//       iconUrl: errorIcon,
-
-//       position: 'topRight',
-//       backgroundColor: '#ef4040',
-// });
-
-// iziToast.show({
-//       title: 'OK',
-//       titleColor: '#fff',
-//       titleSize: '16px',
-
-//       message: ` Fulfilled promise in ${delay}ms`,
-//       messageColor: '#fff',
-//       messageSize: '16px',
-
-//       iconUrl: errorIcon,
-
-//       position: 'topRight',
-//       backgroundColor: '#59a10d',
-// });
-
+const form = document.querySelector('.form');
 const inputDelay = document.querySelector('input[name="delay"]');
 const inputFulfilled = document.querySelector('input[value="fulfilled"]');
 const inputRejected = document.querySelector('input[value="rejected"]');
 const btnSubmit = document.querySelector('button');
-
-let state;
-let delay;
 
 inputFulfilled.addEventListener('click', addInputFulfilledChecked);
 inputRejected.addEventListener('click', addInputRejectedChecked);
@@ -78,7 +46,7 @@ function getDelay() {
     return;
   }
 
-  delay = inputDelay.value;
+  return inputDelay.value;
 }
 
 // функція визначення стану із форми
@@ -101,30 +69,32 @@ function getPromiseState() {
     return;
   }
 
-  state = document.querySelector('[checked]').getAttribute('value');
+  return document.querySelector('[checked]').getAttribute('value');
 }
 
 // функція виклику промісу
-const makePromise = (delay, state) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (state === 'fulfilled') {
-        resolve();
-      } else {
-        reject();
-      }
-    }, delay);
-  });
-};
 
 function handlePromiseGenerator(e) {
   e.preventDefault();
-  getDelay();
-  getPromiseState();
-  makePromise;
+
+  const delay = getDelay();
+  const state = getPromiseState();
+
+  const makePromise = (delayValue, stateValue) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (stateValue === 'fulfilled') {
+          resolve(delayValue);
+        } else {
+          reject(delayValue);
+        }
+      }, delay);
+      form.reset();
+    });
+  };
 
   makePromise(delay, state)
-    .than(() => {
+    .than(succecs => {
       iziToast.show({
         title: 'OK',
         titleColor: '#fff',
@@ -134,13 +104,13 @@ function handlePromiseGenerator(e) {
         messageColor: '#fff',
         messageSize: '16px',
 
-        iconUrl: errorIcon,
+        iconUrl: okIcon,
 
         position: 'topRight',
         backgroundColor: '#59a10d',
       });
     })
-    .catch(() => {
+    .catch(error => {
       iziToast.show({
         title: 'Error',
         titleColor: '#fff',
