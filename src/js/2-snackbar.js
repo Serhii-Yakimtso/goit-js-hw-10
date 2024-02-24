@@ -94,7 +94,7 @@ function handlePromiseGenerator(e) {
   };
 
   makePromise(delay, state)
-    .than(succecs => {
+    .then(succecs => {
       iziToast.show({
         title: 'OK',
         titleColor: '#fff',
